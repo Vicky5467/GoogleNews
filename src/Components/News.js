@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Card, Col, Row } from "antd";
-
+import moment from "moment";
 class News extends Component {
   state = {
     data: "",
@@ -29,10 +29,12 @@ class News extends Component {
   render() {
     return (
       <div>
-        <Row>
-          <Col offset={6}></Col>
-          <h1 style={{ margin: "5px" }}>Headlines</h1>
-        </Row>
+        {this.state.data && (
+          <Row>
+            <Col offset={6}></Col>
+            <h1 style={{ margin: "5px" }}>Headlines</h1>
+          </Row>
+        )}
         {this.state.data &&
           this.state.data.articles.map((item) => (
             <Row>
@@ -49,11 +51,20 @@ class News extends Component {
                       <ul>
                         {
                           <li style={{ fontSize: "bold" }}>
-                            {articles.title}
+                            <a href={articles.url}>{articles.title}</a>
                             <p style={{ color: "#9B9B9C" }}>
                               <span>{articles.publisher}</span>
+                              <span> . </span>
                               <span style={{ marginLeft: "15px" }}>
-                                .{item.published.slice(0, 17)}
+                                {
+                                  <span>
+                                    {moment().diff(
+                                      moment(item.published),
+                                      "hour"
+                                    )}
+                                    hrs ago
+                                  </span>
+                                }
                               </span>
                             </p>
                           </li>
